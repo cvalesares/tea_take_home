@@ -22,8 +22,6 @@ ActiveRecord::Schema.define(version: 2022_02_23_221923) do
     t.string "address"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "subscription_id", null: false
-    t.index ["subscription_id"], name: "index_customers_on_subscription_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -33,10 +31,8 @@ ActiveRecord::Schema.define(version: 2022_02_23_221923) do
     t.integer "frequency"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "tea_id", null: false
     t.bigint "customer_id", null: false
     t.index ["customer_id"], name: "index_subscriptions_on_customer_id"
-    t.index ["tea_id"], name: "index_subscriptions_on_tea_id"
   end
 
   create_table "teas", force: :cascade do |t|
@@ -50,8 +46,6 @@ ActiveRecord::Schema.define(version: 2022_02_23_221923) do
     t.index ["subscription_id"], name: "index_teas_on_subscription_id"
   end
 
-  add_foreign_key "customers", "subscriptions"
   add_foreign_key "subscriptions", "customers"
-  add_foreign_key "subscriptions", "teas"
   add_foreign_key "teas", "subscriptions"
 end
