@@ -1,5 +1,9 @@
 class Api::V1::SubscriptionsController < ApplicationController
 
+  def index
+    render json: SubscriptionSerializer.new(Subscription.all)
+  end
+
   def create
     subscription = Subscription.create!(subscription_params)
     if subscription.save
