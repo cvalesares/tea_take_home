@@ -10,6 +10,17 @@ describe "Subscirption" do
     @tea3 = Tea.create!(title: "grey tea", description: "boring and drab", temperature: 105, brew_time: 30, subscription_id: @subscription2.id)
   end
 
+  it 'can show all of a customer\'s subscriptions' do
+    get "/api/v1/customers/#{@customer1.id}/subscriptions"
+
+    subscriptions = (JSON.parse(response.body, symbolize_names: true))[:data]
+
+    expect(response).to be_successful
+    expect(subscriptions.count).to eq(2)
+    expect(subscriptions.first[:attributes][:status]).to eq("active")
+    expect(subscriptions.last[:attributes][:status]).to eq("cancelled")
+  end
+
   it 'can subscribe a customer to a tea subscription' do
     params = {
       title: 'average stuff',
