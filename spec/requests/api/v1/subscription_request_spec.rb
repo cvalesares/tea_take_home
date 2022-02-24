@@ -23,4 +23,23 @@ describe "Subscirption" do
 
     expect(response.status).to eq(201)
   end
+
+  it 'can cancel a customer\'s subscriptions' do
+    params = {
+      title: 'basic sub',
+      price: 15,
+      status: 1,
+      frequency: 2,
+      customer_id: @customer1.id
+    }
+
+    header = {"CONTENT_TYPE" => "application/json"}
+
+    patch "/api/v1/customers/#{@customer1.id}/subscriptions/#{@subscription1.id}", headers: header, params: JSON.generate(params)
+
+    subscription = Subscription.find_by(id: @subscription1.id)
+
+    expect(response).to be_successful
+    expect(subscription.status).to eq("cancelled")
+  end
 end
